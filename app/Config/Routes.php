@@ -40,6 +40,8 @@ $routes->group('api', ['namespace' => 'App\Controllers\API'], function($routes) 
 
 	$routes->get('clientes/edit/(:num)', 'Cliente::edit/$1');
 	$routes->put('clientes/update/(:num)', 'Cliente::update/$1');
+
+	$routes->delete('clientes/delete/(:num)', 'Cliente::delete/$1');
 });
 
 /*

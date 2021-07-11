@@ -79,4 +79,21 @@ class Cliente extends ResourceController
             return $this->failServerError('Lo sentimos, se ha presentado un error interno en el servdor');
         }
     }
+
+    public function delete($id = null)
+    {
+        try {
+            $clienteEncontrado = $this->model->find($id);
+            if ($clienteEncontrado === null)
+                return $this->failNotFound('No se ha encontrado el cliente con el id solicitado: ' . $id);
+            
+            if ($this->model->delete($id)):
+                return $this->respondDeleted($clienteEncontrado);
+            else:
+                return $this->failServerError('No se pudo eliminar el registro seleccionado');
+            endif;
+        } catch (\Exception $e) {
+            return $this->failServerError('Lo sentimos, ha ocurrido un error interno en el servidor');
+        }
+    }
 }
