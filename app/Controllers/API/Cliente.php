@@ -39,4 +39,44 @@ class Cliente extends ResourceController
             return $this->failServerError('Lo sentimos, se ha presentado un erro interno en el servidor');
         }
     }
+
+    public function edit($id = null) 
+    {
+        try {
+            /*if ($id === null)
+                return $this->failValidationError('No se ha pasado un id válido');*/
+            
+            $cliente = $this->model->find($id);
+
+            if ($cliente === null)
+                return $this->failNotFound('No se ha encontrado un cliente con el id solicitado: ' . $id);
+            
+            // Enviar el cliente localizado al cliente API 
+            return $this->respond($cliente);
+        } catch (\Exception $e) {
+            return $this->failServerError('Lo sentimos, se ha presentado un error interno en el servidor');
+        }
+    }
+
+    public function update($id = null) 
+    {
+        try {
+            // Si el cliente no es localizado, se detiene el proceso de actualización
+            if ($this->model->find($id) === null)
+                return $this->failNotFound('No se ha encontrado un cliente con el id: ' . $id);
+
+            $cliente = $this->request->getJSON();
+
+            // Actualizar el cliente con la nueva información
+            if ($this->model->update($id, $cliente)):
+                $cliente->id = $id;
+                // Enviar una respuesta formateada con las cabeceras y códigos de estado asociados con la actualización
+                return $this->respondUpdated($cliente);
+            else:
+                return $this->failValidationError($this->model->validation->listErrors());
+            endif;
+        } catch (\Exception $e) {
+            return $this->failServerError('Lo sentimos, se ha presentado un error interno en el servdor');
+        }
+    }
 }
