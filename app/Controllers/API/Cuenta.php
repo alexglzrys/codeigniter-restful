@@ -48,4 +48,35 @@ class Cuenta extends ResourceController
 			return $this->failServerError($e->getMessage());
 		}
 	}
+
+	public function edit($id = null)
+	{
+		try {
+			$cuenta = $this->model->find($id);
+			if ($cuenta === null)
+				return $this->failNotFound('La cuenta con id '.$id. ' no fue localizada en el sistema');
+			return $this->respond($cuenta);
+		} catch (\Exception $e) {
+			return $this->failServerError($e->getMessage());
+		}
+	}
+
+	public function update($id = null) 
+	{
+		try {
+			
+			if ($this->model->find($id) === null)
+				return $this->failNotFound('La cuenta con id '.$id.' no fue localizada en el sistema');
+			
+			$cuenta = $this->request->getJSON();
+			if ($this->model->update($id, $cuenta)):
+				$cuenta->id = $id;
+				return $this->respondUpdated($cuenta);
+			else:
+				return $this->failValidationError($this->model->validation->listErrors());
+			endif;
+		} catch (\Exception $e) {
+			return $this->failServerError($e->getMessage());
+		}
+	}
 }
