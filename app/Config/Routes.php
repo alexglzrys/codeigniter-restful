@@ -36,6 +36,7 @@ $routes->get('/', 'Home::index');
 
 $routes->group('api', ['namespace' => 'App\Controllers\API'], function($routes) {
 	$routes->get('clientes', 'Cliente::index');
+	$routes->post('clientes/create', 'Cliente::create');
 });
 
 /*

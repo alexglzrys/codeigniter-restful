@@ -16,10 +16,10 @@ class ClienteModel extends Model
     protected $updatedField = 'updated_at';
 
     protected $validationRules = [
-        'nombre'    => 'required|alpha_space|min_length[3]|max_lenght[75]',
-        'apellido'  => 'required|alpha_space|min_length[3]|max_lenght[75]',
-        'telefono'  => 'required|numeric|min_length[8]|max_lenght[8]',
-        'correo'    => 'permit_empty|valid_email|max_lenght[85]',
+        'nombre'    => 'required|alpha_space|min_length[3]|max_length[75]',
+        'apellido'  => 'required|alpha_space|min_length[3]|max_length[75]',
+        'telefono'  => 'required|numeric|min_length[8]|max_length[8]',
+        'correo'    => 'permit_empty|valid_email|max_length[85]',
     ];
 
     protected $validationMessage = [
