@@ -34,7 +34,7 @@ class CuentaModel extends Model
 			'required' 		=> 'El fondo es un dato requerido',
 			'numeric'		=> 'El fondo solo acepta valores numéricos'
 		],
-		'client_id'		=> [
+		'cliente_id'		=> [
 			'required'		=> 'El cliente asociado es un dato requerido',
 			'numeric'		=> 'EL cliente asociado debe ser un valor numérico',
 			'valid_client'	=> 'El cliente asociado debe ser válido'
