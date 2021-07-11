@@ -30,10 +30,6 @@ class CuentaModel extends Model
 			'min_length'	=> 'El formato de moneda debe tener al menos 3 caracteres',
 			'max_length'	=> 'El formato de moneda debe tener como máximo 3 caracteres'
 		],
-		'fondo'	 		=> [
-			'required' 		=> 'El fondo es un dato requerido',
-			'numeric'		=> 'El fondo solo acepta valores numéricos'
-		],
 		'cliente_id'		=> [
 			'required'		=> 'El cliente asociado es un dato requerido',
 			'numeric'		=> 'EL cliente asociado debe ser un valor numérico',
