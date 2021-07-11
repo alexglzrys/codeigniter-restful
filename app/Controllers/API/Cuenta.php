@@ -32,4 +32,20 @@ class Cuenta extends ResourceController
 			return $this->failServerError($e->getMessage());
 		}
 	}
+
+	public function delete($id = null) 
+	{
+		try {
+			$cuentaEncontrada = $this->model->find($id);
+			if ($cuentaEncontrada === null) 
+				return $this->failNotFound('La cuenta con id ' . $id . ' no fue localizada en el sistema');
+			if ($this->model->delete($id)):
+				return $this->respondDeleted($cuentaEncontrada);
+			else:
+				return $this->failServerError('Error al tratar de eliminar la cuenta solicitada');
+			endif;
+		} catch (\Exception $e) {
+			return $this->failServerError($e->getMessage());
+		}
+	}
 }
