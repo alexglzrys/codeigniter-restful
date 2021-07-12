@@ -37,10 +37,8 @@ $routes->get('/', 'Home::index');
 $routes->group('api', ['namespace' => 'App\Controllers\API'], function($routes) {
 	$routes->get('clientes', 'Cliente::index');
 	$routes->post('clientes/create', 'Cliente::create');
-
 	$routes->get('clientes/edit/(:num)', 'Cliente::edit/$1');
 	$routes->put('clientes/update/(:num)', 'Cliente::update/$1');
-
 	$routes->delete('clientes/delete/(:num)', 'Cliente::delete/$1');
 
 	$routes->get('cuentas', 'Cuenta::index');
@@ -48,6 +46,12 @@ $routes->group('api', ['namespace' => 'App\Controllers\API'], function($routes) 
 	$routes->get('cuentas/edit/(:num)', 'Cuenta::edit/$1');
 	$routes->put('cuentas/update/(:num)', 'Cuenta::update/$1');
 	$routes->delete('cuentas/delete/(:num)', 'Cuenta::delete/$1');
+
+	$routes->get('tipos-transaccion', 'TipoTransaccion::index');
+	$routes->post('tipos-transaccion/create', 'TipoTransaccion::create');
+	$routes->get('tipos-transaccion/edit/(:num)', 'TiposTransaccion::edit/$1');
+	$routes->put('tipos-transaccion/update/(:num)', 'TiposTransaccion::update/$1');
+	$routes->delete('tipos-transaccion/delete/(:num)', 'TiposTransaccion::delete/$1');
 });
 
 /*
