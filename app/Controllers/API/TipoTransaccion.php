@@ -18,4 +18,19 @@ class TipoTransaccion extends ResourceController
 		return $this->respond($tiposTransaccion);
 	}
 
+
+	public function create()
+	{
+		try {
+			$tipoTransaccion = $this->request->getJSON();
+			if ($this->model->insert($tipoTransaccion)):
+				$tipoTransaccion->id = $this->model->insertID();
+				return $this->respondCreated($tipoTransaccion);
+			else:
+				return $this->failValidationError($this->model->validation->listErrors());
+			endif;
+		} catch (\Exception $e) {
+			return $this->failServerError($e->getMessage());
+		}
+	}
 }
