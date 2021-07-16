@@ -49,4 +49,35 @@ class TipoTransaccion extends ResourceController
 			return $this->failServerError($e->getMessage());
 		}
 	}
+
+	public function edit($id = null)
+	{
+		try {
+			$tipoTransaccion = $this->model->find($id);
+			if ($tipoTransaccion === null)
+				return $this->failNotFound('Lo sentimos, no se localizó el tipo de transacción con id '.$id.' solicitado');
+			
+			return $this->respond($tipoTransaccion);
+		} catch (\Exception $e) {
+			return $this->failServerError($e->getMessage());
+		}
+	}
+
+	public function update($id = null)
+	{
+		try {
+			if ($this->model->find($id) === null)
+				return $this->failNotFound('Lo sentimosm no se localizó el tipo de transacción solicitado: ' . $id);
+			
+			$tipoTransaccion = $this->request->getJSON();
+			if ($this->model->update($id, $tipoTransaccion)):
+				$tipoTransaccion->id = $id;
+				return $this->respondUpdated($tipoTransaccion);
+			else:
+				return $this->failValidationError($this->model->validation->listErrors());
+			endif;
+		} catch (\Exception $e) {
+			return $this->failServerError($e->getMessage());
+		}
+	}
 }
