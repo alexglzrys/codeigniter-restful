@@ -32,4 +32,23 @@ class Role extends ResourceController
 			return $this->failServerError($e->getMessage());
 		}
 	}
+
+	public function delete($id = null)
+	{
+		try {
+			$roleEncontrado = $this->model->find($id);
+			if ($roleEncontrado === null)
+				return $this->failNotFound('Lo sentimos, el rol solicitado no existe: ' . $id);
+
+			if ($this->model->delete($id)):
+				return $this->respondDeleted($roleEncontrado);
+			else:
+				return $this->failServerError('Error al tratar de eliminar el rol del sitema');
+			endif;
+		} catch (\Exception $e) {
+			return $this->failServerError($e->getMessage());
+		}
+	}
+
+	
 }
