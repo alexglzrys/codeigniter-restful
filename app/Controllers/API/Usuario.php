@@ -34,4 +34,18 @@ class Usuario extends ResourceController
 			return $this->failServerError($e->getMessage());
 		}
 	}
+
+	public function delete($id = null)
+	{
+		try {
+			$usuarioEncontrado = $this->model->find($id);
+			if ($usuarioEncontrado === null)
+				return $this->failNotFound('Lo sentimos, no se encontró el usuario solicitado: ' . $id);
+			if ($this->model->delete($id))
+				return $this->respondDeleted($usuarioEncontrado);
+			return $this->failServerError('Error al tratar de eliminar el usuario');
+		} catch (\Exception $e) {
+			return $this->failServerError($e->getMessage());
+		}
+	}
 }
