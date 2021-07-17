@@ -2,6 +2,7 @@
 
 namespace App\Controllers\API;
 
+use App\Models\CuentaModel;
 use App\Models\TransaccionModel;
 use CodeIgniter\RESTful\ResourceController;
 
@@ -24,6 +25,7 @@ class Transaccion extends ResourceController
 			$transaccion = $this->request->getJSON();
 			if ($this->model->insert($transaccion)):
 				$transaccion->id = $this->model->insertID();
+				$transaccion->resultado = $this->actualizarFondoCuenta($transaccion->tipo_transaccion_id, $transaccion->monto, $transaccion->cuenta_id);
 				return $this->respondCreated($transaccion);
 			else:
 				return $this->failValidationError($this->model->validation->listErrors());
@@ -31,5 +33,25 @@ class Transaccion extends ResourceController
 		} catch (\Exception $e) {
 			return $this->failServerError($e->getMessage());
 		}
+	}
+
+	private function actualizarFondoCuenta($tipoTransaccion, $monto, $cuentaID) 
+	{
+		$cuentaModel = new CuentaModel();
+		$cuenta = $cuentaModel->find($cuentaID);
+		// Hasta este punto, el id de la cuenta ya esta validado y sabemos que existe
+		switch ($tipoTransaccion) {
+			case 1:
+				$cuenta['fondo'] += $monto;
+				break;
+			case 2:
+				$cuenta['fondo'] -= $monto;
+				break;
+		}
+		if ($cuentaModel->update($cuentaID, $cuenta)):
+			return ['TransaccionExitosa' => true, 'NuevoFondo' => $cuenta['fondo']];
+		else:
+			return ['TransaccionExitosa' => false, 'NuevoFondo' => $cuenta['fondo']];
+		endif;
 	}
 }
