@@ -34,6 +34,7 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 
+$routes->post('auth/login', 'Auth::login');
 $routes->group('api', ['namespace' => 'App\Controllers\API'], function($routes) {
 	$routes->get('clientes', 'Cliente::index');
 	$routes->post('clientes/create', 'Cliente::create');
