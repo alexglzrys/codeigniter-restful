@@ -62,6 +62,12 @@ $routes->group('api', ['namespace' => 'App\Controllers\API'], function($routes) 
 	$routes->get('roles/edit/(:num)', 'Role::edit/$1');
 	$routes->put('roles/update/(:num)', 'Role::update/$1');
 	$routes->delete('roles/delete/(:num)', 'Role::delete/$1');
+
+	$routes->get('usuarios', 'Usuario::index');
+	$routes->post('usuarios/create', 'Usuario::create');
+	$routes->get('usuarios/edit/(:num)', 'Usuario::edit/$1');
+	$routes->put('usuarios/update/(:num)', 'Usuario::update/$1');
+	$routes->delete('usuarios/delete/(:num)', 'Usuario::delete/$1');	
 });
 
 /*
