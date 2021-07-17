@@ -48,4 +48,38 @@ class Usuario extends ResourceController
 			return $this->failServerError($e->getMessage());
 		}
 	}
+
+	public function edit($id = null)
+	{
+		try {
+			$usuarioEncontrado = $this->model->find($id);
+			if ($usuarioEncontrado === null)
+				return $this->failNotFound('Lo sentimos, no localizamos el usuario seleccionado: ' . $id);
+			return $this->respond($usuarioEncontrado);
+		} catch (\Exception $e) {
+			return $this->failServerError($e->getMessage());
+		}
+	}
+
+	public function update($id = null)
+	{
+		try {
+			if ($this->model->find($id) === null)
+				return $this->failNotFound('Lo sentimos, no localizamos el usuario seleccionado: ' . $id);
+			
+			$usuario = $this->request->getJSON();
+			if (isset($usuario->password)) {
+				$usuario->password = hashPassword($usuario->password);
+			}
+
+			if ($this->model->update($id, $usuario)):
+				$usuario->id = $id;
+				return $this->respondUpdated($usuario);
+			else:
+				return $this->failValidationError($this->model->validation->listErrors());
+			endif;
+		} catch (\Exception $e) {
+			return $this->failServerError($e->getMessage());
+		}
+	}
 }
