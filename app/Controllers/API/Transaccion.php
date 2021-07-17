@@ -3,6 +3,7 @@
 namespace App\Controllers\API;
 
 use App\Models\CuentaModel;
+use App\Models\ClienteModel;
 use App\Models\TransaccionModel;
 use CodeIgniter\RESTful\ResourceController;
 
@@ -30,6 +31,21 @@ class Transaccion extends ResourceController
 			else:
 				return $this->failValidationError($this->model->validation->listErrors());
 			endif; 
+		} catch (\Exception $e) {
+			return $this->failServerError($e->getMessage());
+		}
+	}
+
+	public function getTransaccionesPorCliente($id = null)
+	{
+		try {
+			$clienteModel = new ClienteModel();
+			if ($clienteModel->find($id) === null)
+				return $this->failNotFound('Lo sentimos, no se localizó el cliente con el id solicitado: ' . $id);
+
+			$transaccionesModel = new TransaccionModel();
+			$transaccionesCliente = $transaccionesModel->transaccionCliente($id);
+			return $this->respond($transaccionesCliente);
 		} catch (\Exception $e) {
 			return $this->failServerError($e->getMessage());
 		}
