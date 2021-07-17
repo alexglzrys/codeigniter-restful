@@ -52,6 +52,8 @@ $routes->group('api', ['namespace' => 'App\Controllers\API'], function($routes) 
 	$routes->get('tipos-transaccion/edit/(:num)', 'TipoTransaccion::edit/$1');
 	$routes->put('tipos-transaccion/update/(:num)', 'TipoTransaccion::update/$1');
 	$routes->delete('tipos-transaccion/delete/(:num)', 'TipoTransaccion::delete/$1');
+
+	$routes->get('transacciones', 'Transaccion::index');
 });
 
 /*
