@@ -35,7 +35,7 @@ $routes->setAutoRoute(true);
 $routes->get('/', 'Home::index');
 
 $routes->post('auth/login', 'Auth::login');
-$routes->group('api', ['namespace' => 'App\Controllers\API'], function($routes) {
+$routes->group('api', ['namespace' => 'App\Controllers\API', 'filter' => 'auth'], function($routes) {
 	$routes->get('clientes', 'Cliente::index');
 	$routes->post('clientes/create', 'Cliente::create');
 	$routes->get('clientes/edit/(:num)', 'Cliente::edit/$1');
