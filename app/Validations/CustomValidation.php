@@ -2,6 +2,7 @@
 
 namespace App\Validations;
 
+use App\Models\RoleModel;
 use App\Models\CuentaModel;
 use App\Models\ClienteModel;
 use App\Models\TipoTransaccionModel;
@@ -36,5 +37,12 @@ class CustomValidation
 
         $tipoTransaccion = $tipoTransaccionModel->find($id);
         return ($tipoTransaccion === null) ? false : true;
+    }
+
+    public function valid_role($id = null): bool 
+    {
+        $roleModel = new RoleModel();
+        $role = $roleModel->find($id);
+        return ($role === null) ? false : true;
     }
 }
