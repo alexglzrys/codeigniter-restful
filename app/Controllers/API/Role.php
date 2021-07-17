@@ -50,5 +50,34 @@ class Role extends ResourceController
 		}
 	}
 
-	
+	public function edit($id = null)
+	{
+		try {
+			$roleEncontrado = $this->model->find($id);
+			if ($roleEncontrado === null)
+				return $this->failNotFound('Lo sentimos, el rol solicitado no existe: ' . $id);
+			else
+				return $this->respond($roleEncontrado);
+		} catch (\Exception $e) {
+			return $this->failServerError($e->getMessage());
+		}
+	}
+
+	public function update($id = null)
+	{
+		try {
+			if ($this->model->find($id) === null)
+				return $this->failNotFound('Lo sentimos, el rol solicitado no existe: ' . $id);
+
+			$role = $this->request->getJSON();
+			if ($this->model->update($id, $role)):
+				$role->id = $id;
+				return $this->respondUpdated($role);
+			else:
+				return $this->failValidationError($this->model->validation->listErrors());
+			endif;
+		} catch (\Exception $e) {
+			return $this->failServerError($e->getMessage());
+		}
+	}
 }
