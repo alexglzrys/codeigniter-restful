@@ -9,10 +9,15 @@ class Cliente extends ResourceController
     {
         // Establecer el modelo que usará el controlador RESTful CI4 para esta sección
         $this->model = $this->setModel(new ClienteModel());
+        helper('role');
     }
 
     public function index()
     {
+        // Solo pueden acceder al listado de clientes los usuarios cajeros
+        if(!allowedRoles(['cajero'], $this->request->getServer('HTTP_AUTHORIZATION')))
+            return $this->failServerError('El rol asignado no tiene permisos para acceder a este recurso');
+
         // Todas las consultas al modelo original, se hacen a través del intermediario (controlador RESTful CI4)
         $clientes = $this->model->findAll();
         // Decorar/Formatear la respuesta de salida (Estandar API RESTful)

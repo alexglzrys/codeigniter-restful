@@ -10,6 +10,7 @@ class Role extends ResourceController
 	public function __construct()
 	{
 		$this->model = $this->setModel(new RoleModel());
+		helper('role');
 	}
 	
 	public function index()
@@ -21,6 +22,10 @@ class Role extends ResourceController
 	public function create()
 	{
 		try {
+			// Solo los usuarios con rol de administrador, tienen acceso a este recurso
+			if (!allowedRoles(['administrador'], $this->request->getServer('HTTP_AUTHORIZATION')))
+				return $this->failServerError('El rol asignado no tiene permisos de acceso a este recurso');
+
 			$role = $this->request->getJSON();
 			if ($this->model->insert($role)):
 				$role->id = $this->model->insertID();

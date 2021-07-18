@@ -30,7 +30,7 @@ class Auth extends ResourceController
 			$payload = [
 				'aud' => base_url(),	// Que servidor de recursos debe aceptar este token
 				'iat' => time(),		// En que momento se emitió este JWT
-				'exp' => time() + 60,	// Expira en 60 segundos
+				'exp' => time() + 180,	// Expira en 60 segundos
 				'data' => [
 					'nombre' => $usuario['nombre'],
 					'username' => $usuario['username'],

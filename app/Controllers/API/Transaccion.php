@@ -12,6 +12,7 @@ class Transaccion extends ResourceController
 	public function __construct() 
 	{
 		$this->model = $this->setModel(new TransaccionModel());
+		helper('role');
 	}
 
 	public function index()
@@ -39,6 +40,10 @@ class Transaccion extends ResourceController
 	public function getTransaccionesPorCliente($id = null)
 	{
 		try {
+			// Este método puede ser accedido por cajeros y clientes
+			if (!allowedRoles(['cliente', 'cajero'], $this->request->getServer('HTTP_AUTHORIZATION')))
+				return $this->failServerError('El rol asignado no tiene permisos para acceder a este recurso');
+				
 			$clienteModel = new ClienteModel();
 			if ($clienteModel->find($id) === null)
 				return $this->failNotFound('Lo sentimos, no se localizó el cliente con el id solicitado: ' . $id);
